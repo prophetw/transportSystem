@@ -1,0 +1,74 @@
+这个是实现一个交通系统 
+交通系统的组成 
+道路 信号灯
+
+class Car {
+    color
+    speed
+    width
+    height
+    根据红绿灯以及道路限速 控制车速
+    destination 规划计算路线
+}
+class Bus extends Car
+class Truck extends Car
+
+class Road{
+    speedLimit
+    roadDirection N2S S2N E2W W2E   东西南北
+    roadStragedy 车辆右侧行驶
+    icon
+}
+class RoadDivider{   道路道路之间的隔离
+    length
+    type  实线，虚线 可以跨越不可跨越
+}
+class TwoWaySingleLane{
+    2 Road
+    1 RoadDivider
+    roadDirection
+}
+class TwoWayFourLane
+双向四车道定义  东西两个方向总共4条路  https://baike.baidu.com/item/%E5%8F%8C%E5%90%91%E5%9B%9B%E8%BD%A6%E9%81%93/1633712?fr=aladdin
+class TwoWaySixLane
+class TwoWayEightLane
+class Viaduct (高架桥)
+
+class SideRoad
+class MainRoad
+
+class TrafficLight{
+    redLight
+    yellowLight
+    greenLight
+}
+
+场景 
+
+最小demo 
+1.创建一个闭环的道路，设置一个红绿灯，放置一辆车在里面移动，测试红绿灯
+2.掉头
+3.可配置的 道路分割线
+
+
+class Hero{
+    id
+    name
+    nickName
+    damage
+    stun
+    recovery
+    blink  位移技能cd短灵活  无位移无加速笨重
+    naturalEnemy: {
+
+    }
+    beNaturalEnemyOf
+    type  Archer Warrior Tank Mage Assassin
+}
+sunwukong{
+    id
+    name
+    nickName
+    damage
+    type Assassin
+}
