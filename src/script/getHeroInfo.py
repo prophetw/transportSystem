@@ -48,82 +48,7 @@ def getHeroIdFrom(name):
     arr = name.split('.')
     return arr[0]
 
-def getAllHeroAvatar():
-    for li in allli:
-        a = li.find('a')
-        img = a.find('img')
-        imgurl = img.get('src')
-        herochinesename = img.get('alt')
-        savename = getNameFrom(imgurl)
-        heroid = getHeroIdFrom(savename)
-        hero = {
-            "name": herochinesename,
-            "id": heroid
-        }
-        herodata.append(hero)
-        downloadImg('http:'+imgurl)
-def getAllHeroData():
-    for li in allli:
-        hero = getHeroData(li)
-        herodata.append(hero)
-    return herodata
 
-# soupobj  <li><a href="herodetail/112.shtml" target="_blank"><img alt="鲁班七号" height="91" src="//game.gtimg.cn/images/yxzj/img201606/heroimg/112/112.jpg" width="91"/>鲁班七号</a></li>
-def getHeroData(lisoupobj):
-    a = lisoupobj.find('a')
-    herodetailurl = a.get('href')
-    herodetaildata = getHeroDetailSoup(baseurl + herodetailurl)
-    herotype = getHeroDetail(herodetaildata, 'type')
-    # print(herotype)
-
-    img = a.find('img')
-    imgurl = img.get('src')
-    herochinesename = img.get('alt')
-    savename = getNameFrom(imgurl)
-    heroid = getHeroIdFrom(savename)
-    # bkzInfo
-    # kzInfo
-    hero = {
-        "name": herochinesename,
-        "id": heroid,
-        "type": herotype,
-
-    }
-    return hero
-
-def getHeroDetail(soup, prop):
-    if prop == 'type':
-        typeinfo = soup.find('span', class_="herodetail-sort")
-        type = typeinfo.find('i').get('class')[0]
-        if type == 'herodetail-sort-6':
-            type = "Support"
-        if type == 'herodetail-sort-5':
-            type = "Archer"
-        if type == 'herodetail-sort-4':
-            type = "Assassin"
-        if type == 'herodetail-sort-3':
-            type = "Tank"
-        if type == 'herodetail-sort-2':
-            type = "Mage"
-        if type == 'herodetail-sort-1':
-            type = "Warrior"
-        return type
-def getHeroDetailSoup(url):
-    herodetail = requests.get(url)
-    soup = BeautifulSoup(herodetail.content, 'lxml')
-    return soup
-def exportHeroData(data):
-    jsondata = json.dumps(data)
-    with open("./hero.json", "w") as herodata:
-        herodata.write(jsondata)
-    return
-
-
-# test downloadImg('http://game.gtimg.cn/images/yxzj/img201606/heroimg/109/109.jpg')
-# getAllHeroAvatar()
-# data = getAllHeroData()
-# exportHeroData(data)
-getHeroData(allli[0])
 
 headers = {
     "accept": "application/json, text/plain, */*",
@@ -185,9 +110,8 @@ formdata = {
     "msdkToken": "w2J8D59q",
     "h5Get": "1",
 }
-
-herobaseurl = "https://ssl.kohsocialapp.qq.com:10001/hero/getheroextrainfo"
 def getHeroExtraInfo(heroIdStr):
+    herobaseurl = "https://ssl.kohsocialapp.qq.com:10001/hero/getheroextrainfo"
     # 克制信息 post
     # Request URL: https://ssl.kohsocialapp.qq.com:10001/hero/getheroextrainfo
     # Request Method: POST
@@ -208,8 +132,89 @@ def getHeroExtraInfo(heroIdStr):
     out = json.loads(result.text)
     # print(out['data']['bkzInfo'])
     return out['data']
-heroExInfo = getHeroExtraInfo("506")
-print(heroExInfo)
+
+def getAllHeroAvatar():
+    for li in allli:
+        a = li.find('a')
+        img = a.find('img')
+        imgurl = img.get('src')
+        herochinesename = img.get('alt')
+        savename = getNameFrom(imgurl)
+        heroid = getHeroIdFrom(savename)
+        hero = {
+            "name": herochinesename,
+            "id": heroid
+        }
+        herodata.append(hero)
+        downloadImg('http:'+imgurl)
+def getAllHeroData():
+    for li in allli:
+        hero = getHeroData(li)
+        herodata.append(hero)
+    return herodata
+
+# soupobj  <li><a href="herodetail/112.shtml" target="_blank"><img alt="鲁班七号" height="91" src="//game.gtimg.cn/images/yxzj/img201606/heroimg/112/112.jpg" width="91"/>鲁班七号</a></li>
+def getHeroData(lisoupobj):
+    a = lisoupobj.find('a')
+    herodetailurl = a.get('href')
+    herodetaildata = getHeroDetailSoup(baseurl + herodetailurl)
+    herotype = getHeroDetail(herodetaildata, 'type')
+    # print(herotype)
+
+    img = a.find('img')
+    imgurl = img.get('src')
+    herochinesename = img.get('alt')
+    savename = getNameFrom(imgurl)
+    heroid = getHeroIdFrom(savename)
+    heroExInfo = getHeroExtraInfo(heroid)
+    # bkzInfo
+    # kzInfo
+    hero = {
+        "name": herochinesename,
+        "id": heroid,
+        "type": herotype,
+        "exInfo": heroExInfo
+    }
+    return hero
+
+def getHeroDetail(soup, prop):
+    if prop == 'type':
+        typeinfo = soup.find('span', class_="herodetail-sort")
+        type = typeinfo.find('i').get('class')[0]
+        if type == 'herodetail-sort-6':
+            type = "Support"
+        if type == 'herodetail-sort-5':
+            type = "Archer"
+        if type == 'herodetail-sort-4':
+            type = "Assassin"
+        if type == 'herodetail-sort-3':
+            type = "Tank"
+        if type == 'herodetail-sort-2':
+            type = "Mage"
+        if type == 'herodetail-sort-1':
+            type = "Warrior"
+        return type
+def getHeroDetailSoup(url):
+    herodetail = requests.get(url)
+    soup = BeautifulSoup(herodetail.content, 'lxml')
+    return soup
+def exportHeroData(data):
+    jsondata = json.dumps(data)
+    with open("./hero.json", "w") as herodata:
+        herodata.write(jsondata)
+    return
+
+
+# test downloadImg('http://game.gtimg.cn/images/yxzj/img201606/heroimg/109/109.jpg')
+# getAllHeroAvatar()
+# data = getAllHeroData()
+# exportHeroData(data)
+# getHeroData(allli[0])
+
+
+
+# heroExInfo = getHeroExtraInfo("506")
+# print(heroExInfo)
 
 
 
