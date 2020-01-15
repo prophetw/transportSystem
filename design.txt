@@ -51,24 +51,3 @@ class TrafficLight{
 3.可配置的 道路分割线
 
 
-class Hero{
-    id
-    name
-    nickName
-    damage
-    stun
-    recovery
-    blink  位移技能cd短灵活  无位移无加速笨重
-    naturalEnemy: {
-
-    }
-    beNaturalEnemyOf
-    type  Archer Warrior Tank Mage Assassin
-}
-sunwukong{
-    id
-    name
-    nickName
-    damage
-    type Assassin
-}
