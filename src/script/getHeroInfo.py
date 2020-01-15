@@ -182,17 +182,17 @@ def getHeroDetail(soup, prop):
         typeinfo = soup.find('span', class_="herodetail-sort")
         type = typeinfo.find('i').get('class')[0]
         if type == 'herodetail-sort-6':
-            type = "Support"
+            type = "辅助"
         if type == 'herodetail-sort-5':
-            type = "Archer"
+            type = "射手"
         if type == 'herodetail-sort-4':
-            type = "Assassin"
+            type = "刺客"
         if type == 'herodetail-sort-3':
-            type = "Tank"
+            type = "坦克"
         if type == 'herodetail-sort-2':
-            type = "Mage"
+            type = "法师"
         if type == 'herodetail-sort-1':
-            type = "Warrior"
+            type = "战士"
         return type
 def getHeroDetailSoup(url):
     herodetail = requests.get(url)
@@ -207,8 +207,11 @@ def exportHeroData(data):
 
 # test downloadImg('http://game.gtimg.cn/images/yxzj/img201606/heroimg/109/109.jpg')
 # getAllHeroAvatar()
+
+# 获取英雄数据
 # data = getAllHeroData()
 # exportHeroData(data)
+
 # getHeroData(allli[0])
 
 

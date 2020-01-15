@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #user-input{
+            width: 80%;
+        }
+        .bei-ke-zhi{
+            width: 33.3333%;
+            float: left;
+        }
+        h5{margin: 4px;}
+        p{margin: 2px;}
+        h6{
+            margin: 2px;
+        }
+    </style>
+</head>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<body>
+<input type="text" placeholder="请输入孙悟空 韩信，以空格作为间隔" id="user-input">
+<button id="submit">提交</button>
+<div class="list">
+
+</div>
+</body>
+<script>
+    $.getJSON("../script/hero.json","", function(data){
+        console.log(' === data === ',data);
+        let nameToIdMap = generateNameIdMap(data)
+        $('#submit').click(()=>{
+            let result = $('.list');
+            result.empty();
+            console.log($('#user-input').val());
+            let userInput = $('#user-input').val();
+            let userInputArr = userInput.split(' ');
+            console.log(userInputArr);
+            userInputArr.forEach((heroName)=>{
+                for(let hero of data){
+                    if(hero.name===heroName){
+                        renderHeroData(hero)
+                    }
+                }
+            })
+        })
+    })
+    function generateNameIdMap(data){
+
+    }
+    function getKzBkzData(heroId){
+        // 获取克制被克制数据
+
+    }
+    function renderHeroData(hero){
+        let div = document.createElement('div');
+        div.className="bei-ke-zhi"
+        let beikezhiArr = hero.exInfo.bkzInfo.list;
+        let beikezhiHTML = '';
+        beikezhiArr.forEach((data)=>{
+            beikezhiHTML+="<h6>"+ data['szTitle'] +" 克制指数: "+ data['bkzParam'] +"</h6>";
+        })
+        div.innerHTML = "<h5>" + hero.name + "</h5> <p>被下面英雄克制：</p>"+beikezhiHTML;
+        let result = $('.list');
+        result.append(div);
+    }
+    function renderKezhiHtml(arr){
+
+    }
+
+</script>
+</html>
